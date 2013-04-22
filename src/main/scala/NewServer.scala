@@ -30,7 +30,7 @@ trait NewService extends BlueEyesServiceBuilder with BijectionsChunkJson with Bi
 
           path("/(.*)") {
 
-            produce(application/json) {
+            contentType[JValue, ByteChunk](application/json) {
               get {
                 (req: HttpRequest[Future[JValue]]) => {
                   val jstring = JString("Hello World!")
@@ -43,13 +43,11 @@ trait NewService extends BlueEyesServiceBuilder with BijectionsChunkJson with Bi
             }
 
           }
-        }->
+        } ->
         shutdown { config =>
           println("Shutting down")
           Future { () }
-        }
-
-        )
+        })
 
   }
 }
